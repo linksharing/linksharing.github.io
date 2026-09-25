@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Redirecting...</title>
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            font-family: system-ui, sans-serif;
+            background: #fff;
+            color: #111;
+        }
+    
+        p {
+            opacity: 0.6;
+        }
+    
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #111;
+                color: #fff;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <p id="message">Redirecting...</p>
+
+    <script>
+        async function redirect() {
+            const message = document.getElementById("message");
+
+            try {
+                /*
+                 * GitHub Pages project site:
+                 * https://mcv-s.github.io/redirect/
+                 *
+                 * Get everything after /redirect/
+                 */
+                const basePath = "/redirect/";
+
+                let slug = window.location.pathname;
+
+                if (slug.startsWith(basePath)) {
+                    slug = slug.substring(basePath.length);
+                }
+
+                slug = slug.replace(/^\/+|\/+$/g, "");
+
+                if (!slug) {
+                    message.textContent = "No redirect code.";
+                    return;
+                }
+
+                slug = decodeURIComponent(slug);
+
+                /*
+                 * Load the public Supabase configuration.
+                 */
+                const configResponse = await fetch(
+                    `${basePath}SUPABASE.json`,
+                    {
+                        cache: "no-store"
+                    }
+                );
+
+                if (!configResponse.ok) {
+                    throw new Error(
+                        `SUPABASE.json returned ${configResponse.status}`
+                    );
+                }
+
+                const supabase = await configResponse.json();
+
+                /*
+                 * Look up the slug.
+                 */
+                const response = await fetch(
+                    `${supabase.url}/rest/v1/RedirectLinks` +
+                    `?slug=eq.${encodeURIComponent(slug)}` +
+                    `&select=url` +
+                    `&limit=1`,
+                    {
+                        headers: {
+                            "apikey": supabase.key,
+                            "Authorization": `Bearer ${supabase.key}`
+                        }
+                    }
+                );
+
+                if (!response.ok) {
+                    throw new Error(
+                        `Supabase request failed: ${response.status}`
+                    );
+                }
+
+                const rows = await response.json();
+
+                if (!rows.length || !rows[0].url) {
+                    message.textContent = "Invalid redirect.";
+                    return;
+                }
+
+
+
+            } catch (error) {
+                console.error(error);
+                message.textContent = "Redirect failed.";
+            }
+        }
+
+        redirect();
+    </script>
+
+</body>
+</html>

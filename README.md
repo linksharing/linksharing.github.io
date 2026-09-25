@@ -1,2 +1,2 @@
-# linksharing.github.io
-A simple link sharing site - made for simplicity
+# redirect
+(Currently) static redirecting for me only. 
