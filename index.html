@@ -28,7 +28,7 @@
     <main id="main" hidden>
 
         <header>
-            <h1>Redirect</h1>
+            <h1>Link Sharing</h1>
             <p>Create a simple, reusable link to any URL.</p>
         </header>
 
@@ -79,15 +79,8 @@
                 You can use a custom code or generate a random one.
             </p>
 
-            <p>
-                The destination can be changed later without
-                changing the redirect link itself.
-            </p>
         </section>
 
-        <footer>
-            Simple links. No account required.
-        </footer>
 
     </main>
 
@@ -101,11 +94,9 @@
         let supabase = null;
 
 
-        const loading =
-            document.getElementById("loading");
+        const loading = document.getElementById("loading");
 
-        const main =
-            document.getElementById("main");
+        const main = document.getElementById("main");
 
 
         async function loadSupabase() {

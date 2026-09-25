@@ -47,7 +47,7 @@ class PagesHandler(SimpleHTTPRequestHandler):
 def main():
     parser = ArgumentParser(description="Preview AI, Actually like a static GitHub Pages site.")
     parser.add_argument("--host", default="127.0.0.1")
-    parser.add_argument("--port", default=4174, type=int)
+    parser.add_argument("--port", default=4175, type=int)
     parser.add_argument("--base-path", default="/", help="Optional deployment path, e.g. /documenting-ai")
     args = parser.parse_args()
     server = ThreadingHTTPServer((args.host, args.port), PagesHandler)
