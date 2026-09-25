@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,11 +17,11 @@
             background: #fff;
             color: #111;
         }
-    
+
         p {
             opacity: 0.6;
         }
-    
+
         @media (prefers-color-scheme: dark) {
             body {
                 background: #111;
@@ -38,6 +39,8 @@
         async function redirect() {
             const message = document.getElementById("message");
 
+            console.log("Tried to get it")
+
             try {
                 /*
                  * GitHub Pages project site:
@@ -48,6 +51,8 @@
                 const basePath = "/";
 
                 let slug = window.location.pathname;
+
+                console.log(slug)
 
                 if (slug.startsWith(basePath)) {
                     slug = slug.substring(basePath.length);
@@ -109,7 +114,7 @@
                     return;
                 }
 
-
+                window.location.replace(rows[0].url);
 
             } catch (error) {
                 console.error(error);
@@ -121,4 +126,5 @@
     </script>
 
 </body>
+
 </html>
